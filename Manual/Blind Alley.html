@@ -12,42 +12,19 @@
         table.regions {
             border: none;
             margin: 0 2em 1em 0;
-            float: left;
-        }
-        table.regions td {
-            text-align: center;
         }
 
-        p.clear {
-            clear: left;
-        }
-
-        table.numbers {
-            float: right;
+        td.corner {
             border: none;
-            margin: 0 0 0 2em;
-            clear: both;
-        }
-        table.numbers td, table.numbers th {
-            padding: .35em .6em 0em;
-            line-height: 1;
-            text-align: center;
-        }
-        table.numbers th.vertical {
-            position: relative;
-            height: 7em;
-        }
-        table.numbers th.vertical span {
-            position: absolute;
-            transform: rotate(-90deg) translateY(-40%);
-            transform-origin: top left;
-            display: block;
-            white-space: nowrap;
-            left: 50%;
-            top: calc(100% - .5em);
         }
 
-        td.corner { border: none; }
+        ul {
+            padding-left: 1.5em;
+        }
+
+        td {
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
@@ -62,59 +39,78 @@
                     <img class="diagram" src="img/Blind Alley.svg">
                     <h2>On the Subject of Blind Alley</h2>
 
-                    <p class="flavour-text">Huh?
+                    <p class="flavour-text">What? Where?
+
+                    <p>
+                        The module appears blank, but has eight touch-sensitive regions laid out
+                        as in the following diagram. Touch the region that has the most conditions met.
+                        If there’s a tie, either one will do.
 
                     <table class='regions'>
-                        <tr><td>1<td>2<td class='corner'></tr>
-                        <tr><td>3<td>4<td>5</tr>
-                        <tr><td>6<td>7<td>8</tr>
-                    </table>
-
-                    <table class='numbers'>
-                        <tr><td class='corner'>
-                            <th class='vertical'><span>DVI-D</span>     &nbsp;&nbsp;&nbsp;
-                            <th class='vertical'><span>parallel</span>  &nbsp;&nbsp;&nbsp;
-                            <th class='vertical'><span>PS/2</span>      &nbsp;&nbsp;&nbsp;
-                            <th class='vertical'><span>RJ-45</span>     &nbsp;&nbsp;&nbsp;
-                            <th class='vertical'><span>serial</span>    &nbsp;&nbsp;&nbsp;
-                            <th class='vertical'><span>stereo RCA</span>&nbsp;&nbsp;&nbsp;
-                            <th class='vertical'><span>no port</span>   &nbsp;&nbsp;&nbsp;
+                        <tr>
+                            <td>
+                                <ul>
+                                    <li>There is an unlit BOB indicator.
+                                    <li>There is a lit CAR indicator.
+                                    <li>There is a PS/2 port.
+                                    <li>There is an even number of battery holders.
+                                </ul>
+                            <td>
+                                <ul>
+                                    <li>There is an unlit CAR indicator.
+                                    <li>There is a lit FRK indicator.
+                                    <li>There is an unlit NSA indicator.
+                                    <li>There is a lit SIG indicator.
+                                </ul>
+                            <td class='corner'>
                         </tr>
-                        <tr><th>unlit BOB   <td>6<td>8<td>5<td>1<td>3<td>2<td>7</tr>
-                        <tr><th>unlit CAR   <td>5<td>4<td>6<td>2<td>8<td>1<td>7</tr>
-                        <tr><th>unlit CLR   <td>1<td>5<td>4<td>8<td>3<td>7<td>6</tr>
-                        <tr><th>unlit FRK   <td>8<td>1<td>7<td>3<td>5<td>2<td>6</tr>
-                        <tr><th>unlit FRQ   <td>2<td>5<td>7<td>6<td>3<td>1<td>4</tr>
-                        <tr><th>unlit IND   <td>5<td>6<td>7<td>8<td>2<td>1<td>3</tr>
-                        <tr><th>unlit MSA   <td>7<td>3<td>8<td>1<td>4<td>5<td>2</tr>
-                        <tr><th>unlit NSA   <td>4<td>3<td>5<td>7<td>6<td>1<td>8</tr>
-                        <tr><th>unlit SIG   <td>4<td>3<td>5<td>1<td>8<td>2<td>7</tr>
-                        <tr><th>unlit SND   <td>3<td>7<td>2<td>4<td>6<td>8<td>5</tr>
-                        <tr><th>unlit TRN   <td>3<td>5<td>2<td>4<td>7<td>1<td>8</tr>
-                        <tr><th>lit BOB     <td>6<td>5<td>1<td>4<td>7<td>8<td>3</tr>
-                        <tr><th>lit CAR     <td>2<td>8<td>4<td>1<td>5<td>3<td>7</tr>
-                        <tr><th>lit CLR     <td>7<td>6<td>2<td>3<td>8<td>5<td>1</tr>
-                        <tr><th>lit FRK     <td>7<td>5<td>3<td>4<td>6<td>2<td>1</tr>
-                        <tr><th>lit FRQ     <td>2<td>8<td>5<td>4<td>7<td>3<td>1</tr>
-                        <tr><th>lit IND     <td>2<td>1<td>7<td>5<td>8<td>3<td>6</tr>
-                        <tr><th>lit MSA     <td>8<td>1<td>4<td>7<td>2<td>6<td>3</tr>
-                        <tr><th>lit NSA     <td>5<td>8<td>7<td>3<td>4<td>1<td>6</tr>
-                        <tr><th>lit SIG     <td>2<td>4<td>3<td>5<td>6<td>7<td>1</tr>
-                        <tr><th>lit SND     <td>5<td>8<td>1<td>7<td>6<td>2<td>3</tr>
-                        <tr><th>lit TRN     <td>2<td>1<td>5<td>6<td>7<td>4<td>8</tr>
-                        <tr><th>no indicator<td>4<td>8<td>5<td>1<td>7<td>3<td>6</tr>
+                        <tr>
+                            <td>
+                                <ul>
+                                    <li>There is an unlit FRQ indicator.
+                                    <li>There is an unlit IND indicator.
+                                    <li>There is an unlit TRN indicator.
+                                    <li>There is a stereo RCA port.
+                                </ul>
+                            <td>
+                                <ul>
+                                    <li>There is a lit NSA indicator.
+                                    <li>There is an unlit SIG indicator.
+                                    <li>There is an unlit SND indicator.
+                                    <li>There is a lit TRN indicator.
+                                </ul>
+                            <td>
+                                <ul>
+                                    <li>There is a lit BOB indicator.
+                                    <li>There is a lit CLR indicator.
+                                    <li>There is a lit IND indicator.
+                                    <li>There is a serial port.
+                                </ul>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ul>
+                                    <li>There is a lit FRQ indicator.
+                                    <li>There is an RJ-45 port.
+                                    <li>There is an even number of batteries.
+                                    <li>There is an even digit in the serial number.
+                                </ul>
+                            <td>
+                                <ul>
+                                    <li>There is an unlit FRK indicator.
+                                    <li>There is a lit MSA indicator.
+                                    <li>There is a parallel port.
+                                    <li>There is a vowel in the serial number.
+                                </ul>
+                            <td>
+                                <ul>
+                                    <li>There is an unlit CLR indicator.
+                                    <li>There is an unlit MSA indicator.
+                                    <li>There is a lit SND indicator.
+                                    <li>There is a DVI-D port.
+                                </ul>
+                        </tr>
                     </table>
-
-                    <p>The module appears blank, but has 8 touch-sensitive regions laid out
-                        as in the diagram on the left.
-
-                    <p class='clear'>Add up all the numbers from the following table for all the rows and columns that apply.
-                        Each row and column applies at most once, even when a port or indicator is
-                        present multiple times.
-
-                    <p>Then repeatedly subtract 8 until you get a number between 1 and 8,
-                        then touch the corresponding region on the module.
-
                 </div>
                 <div class="page-footer relative-footer">Page 1 of 1</div>
             </div>

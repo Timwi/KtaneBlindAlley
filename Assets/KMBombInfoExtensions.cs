@@ -129,6 +129,16 @@ namespace BlindAlley
             return GetIndicatorEntries(bombInfo).Any((x) => x.IsOn() && indicatorLabel.Equals(x.label));
         }
 
+        public static bool IsIndicatorOff(this KMBombInfo bombInfo, KnownIndicatorLabel indicatorLabel)
+        {
+            return bombInfo.IsIndicatorOff(indicatorLabel.ToString());
+        }
+
+        public static bool IsIndicatorOff(this KMBombInfo bombInfo, string indicatorLabel)
+        {
+            return GetIndicatorEntries(bombInfo).Any((x) => !x.IsOn() && indicatorLabel.Equals(x.label));
+        }
+
         public static IEnumerable<string> GetIndicators(this KMBombInfo bombInfo)
         {
             return GetIndicatorEntries(bombInfo).Select((x) => x.label);
