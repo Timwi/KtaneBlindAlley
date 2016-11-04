@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MysteryMeat;
+using BlindAlley;
 using UnityEngine;
 using Rnd = UnityEngine.Random;
 
 /// <summary>
-/// On the Subject of Mystery Meat
+/// On the Subject of Blind Alley
 /// Created by Timwi
 /// </summary>
-public class MysteryMeatModule : MonoBehaviour
+public class BlindAlleyModule : MonoBehaviour
 {
     public KMBombInfo Bomb;
     public KMBombModule Module;
@@ -17,12 +17,18 @@ public class MysteryMeatModule : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("[MysteryMeat] Started");
+        Debug.Log("[BlindAlley] Started");
         Module.OnActivate += ActivateModule;
     }
 
     void ActivateModule()
     {
-        Debug.Log("[MysteryMeat] Activated");
+        Debug.Log("[BlindAlley] Activated");
+
+        for (int i = 0; i < 6; i++)
+        {
+            var mesh = new Mesh();
+            mesh.vertices = new Vector3[0];
+        }
     }
 }

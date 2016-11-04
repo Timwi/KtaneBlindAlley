@@ -14,7 +14,7 @@ GameObject:
   - 114: {fileID: 11496072}
   - 114: {fileID: 11489182}
   m_Layer: 0
-  m_Name: MysteryMeatModule
+  m_Name: BlindAlleyModule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -256,8 +256,8 @@ MonoBehaviour:
   m_Script: {fileID: -119419473, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModuleType: MysteryMeatModule
-  ModuleDisplayName: Mystery Meat
+  ModuleType: BlindAlleyModule
+  ModuleDisplayName: Blind Alley
   RequiresTimerVisibility: 0
 --- !u!114 &11464240
 MonoBehaviour:
