@@ -1125,6 +1125,7 @@ MonoBehaviour:
   Children:
   - {fileID: 11460140}
   - {fileID: 11407850}
+  - {fileID: 0}
   - {fileID: 11443536}
   - {fileID: 11439902}
   - {fileID: 11431236}
@@ -1132,7 +1133,7 @@ MonoBehaviour:
   - {fileID: 11410936}
   - {fileID: 11408760}
   IsPassThrough: 0
-  ChildRowLength: 1
+  ChildRowLength: 3
   Highlight: {fileID: 11464240}
   SelectableArea: {fileID: 0}
   DefaultSelectableIndex: 0

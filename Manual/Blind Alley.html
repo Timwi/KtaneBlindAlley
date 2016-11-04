@@ -12,7 +12,10 @@
         table.regions {
             border: none;
             margin: 0 2em 1em 0;
+            clear: both;
         }
+
+        table.regions col { width: 33%; }
 
         td.corner {
             border: none;
@@ -37,30 +40,31 @@
                 </div>
                 <div class="page-content">
                     <img class="diagram" src="img/Blind Alley.svg">
-                    <h2>On the Subject of Blind Alley</h2>
+                    <h2>On the Subject of the Blind Alley</h2>
 
                     <p class="flavour-text">What? Where?
 
                     <p>
                         The module appears blank, but has eight touch-sensitive regions laid out
-                        as in the following diagram. Touch the region that has the most conditions met.
-                        If there’s a tie, either one will do.
+                        as in the following diagram. Touch the regions that have the most
+                        conditions met in any order.
 
                     <table class='regions'>
+                        <col><col><col>
                         <tr>
                             <td>
                                 <ul>
                                     <li>There is an unlit BOB indicator.
                                     <li>There is a lit CAR indicator.
-                                    <li>There is a PS/2 port.
+                                    <li>There is a lit IND indicator.
                                     <li>There is an even number of battery holders.
                                 </ul>
                             <td>
                                 <ul>
                                     <li>There is an unlit CAR indicator.
-                                    <li>There is a lit FRK indicator.
                                     <li>There is an unlit NSA indicator.
-                                    <li>There is a lit SIG indicator.
+                                    <li>There is a lit FRK indicator.
+                                    <li>There is an RJ-45 port.
                                 </ul>
                             <td class='corner'>
                         </tr>
@@ -70,20 +74,20 @@
                                     <li>There is an unlit FRQ indicator.
                                     <li>There is an unlit IND indicator.
                                     <li>There is an unlit TRN indicator.
-                                    <li>There is a stereo RCA port.
+                                    <li>There is a DVI-D port.
                                 </ul>
                             <td>
                                 <ul>
-                                    <li>There is a lit NSA indicator.
                                     <li>There is an unlit SIG indicator.
                                     <li>There is an unlit SND indicator.
-                                    <li>There is a lit TRN indicator.
+                                    <li>There is a lit NSA indicator.
+                                    <li>There is an even number of batteries.
                                 </ul>
                             <td>
                                 <ul>
                                     <li>There is a lit BOB indicator.
                                     <li>There is a lit CLR indicator.
-                                    <li>There is a lit IND indicator.
+                                    <li>There is a PS/2 port.
                                     <li>There is a serial port.
                                 </ul>
                         </tr>
@@ -91,8 +95,8 @@
                             <td>
                                 <ul>
                                     <li>There is a lit FRQ indicator.
-                                    <li>There is an RJ-45 port.
-                                    <li>There is an even number of batteries.
+                                    <li>There is a lit SIG indicator.
+                                    <li>There is a lit TRN indicator.
                                     <li>There is an even digit in the serial number.
                                 </ul>
                             <td>
@@ -107,7 +111,7 @@
                                     <li>There is an unlit CLR indicator.
                                     <li>There is an unlit MSA indicator.
                                     <li>There is a lit SND indicator.
-                                    <li>There is a DVI-D port.
+                                    <li>There is a stereo RCA port.
                                 </ul>
                         </tr>
                     </table>
