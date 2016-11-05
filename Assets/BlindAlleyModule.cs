@@ -16,6 +16,13 @@ public class BlindAlleyModule : MonoBehaviour
     public KMAudio Audio;
     public KMSelectable[] Regions;
 
+    enum RegionState
+    {
+        Strike = 0,
+        Unclicked = 1,
+        Clicked = 2
+    }
+
     void Start()
     {
         Debug.Log("[Blind Alley] Started");
@@ -85,32 +92,32 @@ public class BlindAlleyModule : MonoBehaviour
         }
 
         var highestCount = counts.Max();
-        var stillToPress = new List<int>();
+        var states = new RegionState[8];
 
         for (int i = 0; i < 8; i++)
         {
-            if (counts[i] == highestCount)
-                stillToPress.Add(i);
+            states[i] = counts[i] == highestCount ? RegionState.Unclicked : RegionState.Strike;
             var j = i;
             Regions[i].OnInteract += delegate
             {
-                if (stillToPress.Contains(j))
-                {
-                    stillToPress.Remove(j);
-                    Debug.LogFormat("[Blind Alley] Region #{0} is correct. Remaining regions: {1}", j + 1, stillToPress.Count == 0 ? "none" : string.Join(", ", stillToPress.Select(r => (r + 1).ToString()).ToArray()));
-                    if (stillToPress.Count == 0)
-                        Module.HandlePass();
-                }
-                else
+                if (states[j] == RegionState.Strike)
                 {
                     Debug.LogFormat("[Blind Alley] You pressed region #{0}, which is wrong.", j + 1);
                     Module.HandleStrike();
+                }
+                else
+                {
+                    states[j] = RegionState.Clicked;
+                    var unclicked = Enumerable.Range(0, 8).Where(ix => states[ix] == RegionState.Unclicked).Select(ix => (ix + 1).ToString()).ToArray();
+                    Debug.LogFormat("[Blind Alley] Region #{0} is correct. Remaining unclicked regions: {1}", j + 1, unclicked.Length == 0 ? "none" : string.Join(", ", unclicked));
+                    if (unclicked.Length == 0)
+                        Module.HandlePass();
                 }
                 return false;
             };
         }
 
         Debug.Log("[Blind Alley] Region condition counts: " + string.Join(", ", counts.Select(c => c.ToString()).ToArray()));
-        Debug.Log("[Blind Alley] Must press regions: " + string.Join(", ", stillToPress.Select(r => (r + 1).ToString()).ToArray()));
+        Debug.Log("[Blind Alley] Must press regions: " + string.Join(", ", Enumerable.Range(0, 8).Where(ix => states[ix] == RegionState.Unclicked).Select(ix => (ix + 1).ToString()).ToArray()));
     }
 }
