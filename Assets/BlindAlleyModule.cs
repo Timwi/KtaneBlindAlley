@@ -100,6 +100,7 @@ public class BlindAlleyModule : MonoBehaviour
             var j = i;
             Regions[i].OnInteract += delegate
             {
+                Regions[j].AddInteractionPunch();
                 if (states[j] == RegionState.Strike)
                 {
                     Debug.LogFormat("[Blind Alley] You pressed region #{0}, which is wrong.", j + 1);
