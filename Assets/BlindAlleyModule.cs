@@ -33,7 +33,7 @@ public class BlindAlleyModule : MonoBehaviour
     {
         Debug.Log("[Blind Alley] Activated");
 
-        // Find out which region _should_ be clicked
+        // Find out which regions _should_ be clicked
         var counts = new int[8];
 
         if (Bomb.GetSerialNumber() == null)
@@ -93,6 +93,7 @@ public class BlindAlleyModule : MonoBehaviour
 
         var highestCount = counts.Max();
         var states = new RegionState[8];
+        var regionNames = new[] { "TL", "TM", "ML", "MC", "MR", "BL", "BM", "BR" };
 
         for (int i = 0; i < 8; i++)
         {
@@ -103,14 +104,14 @@ public class BlindAlleyModule : MonoBehaviour
                 Regions[j].AddInteractionPunch();
                 if (states[j] == RegionState.Strike)
                 {
-                    Debug.LogFormat("[Blind Alley] You pressed region #{0}, which is wrong.", j + 1);
+                    Debug.LogFormat("[Blind Alley] You pressed region {0}, which is wrong.", regionNames[j]);
                     Module.HandleStrike();
                 }
                 else
                 {
                     states[j] = RegionState.Clicked;
-                    var unclicked = Enumerable.Range(0, 8).Where(ix => states[ix] == RegionState.Unclicked).Select(ix => (ix + 1).ToString()).ToArray();
-                    Debug.LogFormat("[Blind Alley] Region #{0} is correct. Remaining unclicked regions: {1}", j + 1, unclicked.Length == 0 ? "none" : string.Join(", ", unclicked));
+                    var unclicked = Enumerable.Range(0, 8).Where(ix => states[ix] == RegionState.Unclicked).Select(ix => regionNames[ix]).ToArray();
+                    Debug.LogFormat("[Blind Alley] Region {0} is correct. Remaining unclicked regions: {1}", regionNames[j], unclicked.Length == 0 ? "none" : string.Join(", ", unclicked));
                     if (unclicked.Length == 0)
                         Module.HandlePass();
                 }
@@ -118,7 +119,7 @@ public class BlindAlleyModule : MonoBehaviour
             };
         }
 
-        Debug.Log("[Blind Alley] Region condition counts: " + string.Join(", ", counts.Select(c => c.ToString()).ToArray()));
-        Debug.Log("[Blind Alley] Must press regions: " + string.Join(", ", Enumerable.Range(0, 8).Where(ix => states[ix] == RegionState.Unclicked).Select(ix => (ix + 1).ToString()).ToArray()));
+        Debug.LogFormat("[Blind Alley] Region condition counts:\n{0} {1}\n{2} {3} {4}\n{5} {6} {7}", counts.Select(c => c.ToString()).ToArray());
+        Debug.Log("[Blind Alley] Must press regions: " + string.Join(", ", Enumerable.Range(0, 8).Where(ix => states[ix] == RegionState.Unclicked).Select(ix => regionNames[ix]).ToArray()));
     }
 }
