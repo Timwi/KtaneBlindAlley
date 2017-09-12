@@ -79,6 +79,7 @@ public class BlindAlleyModule : MonoBehaviour
         var highestCount = counts.Max();
         var states = new RegionState[8];
         var regionNames = new[] { "TL", "TM", "ML", "MC", "MR", "BL", "BM", "BR" };
+        var isSolved = false;
 
         for (int i = 0; i < 8; i++)
         {
@@ -87,6 +88,8 @@ public class BlindAlleyModule : MonoBehaviour
             Regions[i].OnInteract += delegate
             {
                 Regions[j].AddInteractionPunch();
+                if (isSolved)
+                    return false;
                 if (states[j] == RegionState.Strike)
                 {
                     Debug.LogFormat("[Blind Alley #{1}] You pressed region {0}, which is wrong.", regionNames[j], _moduleId);
@@ -98,7 +101,10 @@ public class BlindAlleyModule : MonoBehaviour
                     var unclicked = Enumerable.Range(0, 8).Where(ix => states[ix] == RegionState.Unclicked).Select(ix => regionNames[ix]).ToArray();
                     Debug.LogFormat("[Blind Alley #{2}] Region {0} is correct. Remaining unclicked regions: {1}", regionNames[j], unclicked.Length == 0 ? "none" : string.Join(", ", unclicked), _moduleId);
                     if (unclicked.Length == 0)
+                    {
                         Module.HandlePass();
+                        isSolved = true;
+                    }
                 }
                 return false;
             };
