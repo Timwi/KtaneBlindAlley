@@ -114,6 +114,10 @@ public class BlindAlleyModule : MonoBehaviour
         Debug.LogFormat("[Blind Alley #{1}] Must press regions: {0}", string.Join(", ", Enumerable.Range(0, 8).Where(ix => states[ix] == RegionState.Unclicked).Select(ix => regionNames[ix]).ToArray()), _moduleId);
     }
 
+#pragma warning disable 414
+    private string TwitchHelpMessage = @"Hit the correct spots with “!{0} press bl mm tm tl”. (Locations are tl, tm, ml, mm, mr, bl, bm, br.)";
+#pragma warning restore 414
+
     KMSelectable[] ProcessTwitchCommand(string command)
     {
         var split = command.Trim().ToLowerInvariant().Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
