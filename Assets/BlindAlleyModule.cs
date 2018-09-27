@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BlindAlley;
+using KModkit;
 using UnityEngine;
-using Rnd = UnityEngine.Random;
 
 /// <summary>
 /// On the Subject of Blind Alley
@@ -14,6 +13,7 @@ public class BlindAlleyModule : MonoBehaviour
     public KMBombModule Module;
     public KMAudio Audio;
     public KMSelectable[] Regions;
+    public KMRuleSeedable RuleSeedable;
 
     private static int _moduleIdCounter = 1;
     private int _moduleId;
@@ -28,62 +28,62 @@ public class BlindAlleyModule : MonoBehaviour
     void Start()
     {
         _moduleId = _moduleIdCounter++;
-        Module.OnActivate += ActivateModule;
-    }
 
-    void ActivateModule()
-    {
+        var conditions = new KeyValuePair<string, bool>[]
+        {
+            new KeyValuePair<string, bool>("lit IND", Bomb.IsIndicatorOn(Indicator.IND)),
+            new KeyValuePair<string, bool>("DVI-D port", Bomb.IsPortPresent(Port.DVI)),
+            new KeyValuePair<string, bool>("RJ-45 port", Bomb.IsPortPresent(Port.RJ45)),
+            new KeyValuePair<string, bool>("even number of battery holders", Bomb.GetBatteryHolderCount() % 2 == 0),
+            new KeyValuePair<string, bool>("unlit FRQ", Bomb.IsIndicatorOff(Indicator.FRQ)),
+            new KeyValuePair<string, bool>("lit CAR", Bomb.IsIndicatorOn(Indicator.CAR)),
+            new KeyValuePair<string, bool>("lit SND", Bomb.IsIndicatorOn(Indicator.SND)),
+            new KeyValuePair<string, bool>("unlit CLR", Bomb.IsIndicatorOff(Indicator.CLR)),
+            new KeyValuePair<string, bool>("lit TRN", Bomb.IsIndicatorOn(Indicator.TRN)),
+            new KeyValuePair<string, bool>("parallel port", Bomb.IsPortPresent(Port.Parallel)),
+            new KeyValuePair<string, bool>("even number of batteries", Bomb.GetBatteryCount() % 2 == 0),
+            new KeyValuePair<string, bool>("Stereo RCA port", Bomb.IsPortPresent(Port.StereoRCA)),
+            new KeyValuePair<string, bool>("serial port", Bomb.IsPortPresent(Port.Serial)),
+            new KeyValuePair<string, bool>("unlit TRN", Bomb.IsIndicatorOff(Indicator.TRN)),
+            new KeyValuePair<string, bool>("PS/2 port", Bomb.IsPortPresent(Port.PS2)),
+            new KeyValuePair<string, bool>("unlit FRK", Bomb.IsIndicatorOff(Indicator.FRK)),
+            new KeyValuePair<string, bool>("lit BOB", Bomb.IsIndicatorOn(Indicator.BOB)),
+            new KeyValuePair<string, bool>("lit NSA", Bomb.IsIndicatorOn(Indicator.NSA)),
+            new KeyValuePair<string, bool>("lit SIG", Bomb.IsIndicatorOn(Indicator.SIG)),
+            new KeyValuePair<string, bool>("lit MSA", Bomb.IsIndicatorOn(Indicator.MSA)),
+            new KeyValuePair<string, bool>("even digit in serial number", Bomb.GetSerialNumberNumbers().Any(n => n % 2 == 0)),
+            new KeyValuePair<string, bool>("lit FRK", Bomb.IsIndicatorOn(Indicator.FRK)),
+            new KeyValuePair<string, bool>("unlit CAR", Bomb.IsIndicatorOff(Indicator.CAR)),
+            new KeyValuePair<string, bool>("unlit NSA", Bomb.IsIndicatorOff(Indicator.NSA)),
+            new KeyValuePair<string, bool>("unlit BOB", Bomb.IsIndicatorOff(Indicator.BOB)),
+            new KeyValuePair<string, bool>("vowel in serial number", Bomb.GetSerialNumber().Any(ch => "AEIOU".Contains(ch))),
+            new KeyValuePair<string, bool>("unlit SND", Bomb.IsIndicatorOff(Indicator.SND)),
+            new KeyValuePair<string, bool>("lit CLR", Bomb.IsIndicatorOn(Indicator.CLR)),
+            new KeyValuePair<string, bool>("unlit MSA", Bomb.IsIndicatorOff(Indicator.MSA)),
+            new KeyValuePair<string, bool>("unlit IND", Bomb.IsIndicatorOff(Indicator.IND)),
+            new KeyValuePair<string, bool>("unlit SIG", Bomb.IsIndicatorOff(Indicator.SIG)),
+            new KeyValuePair<string, bool>("lit FRQ", Bomb.IsIndicatorOn(Indicator.FRQ))
+        };
+
+        var rnd = RuleSeedable.GetRNG();
+        rnd.ShuffleFisherYates(conditions);
+
         // Find out which regions _should_ be clicked
-        var counts = new int[8];
-
-        if (Bomb.IsIndicatorOff(KMBombInfoExtensions.KnownIndicatorLabel.BOB)) counts[0]++;
-        if (Bomb.IsIndicatorOn(KMBombInfoExtensions.KnownIndicatorLabel.CAR)) counts[0]++;
-        if (Bomb.IsIndicatorOn(KMBombInfoExtensions.KnownIndicatorLabel.IND)) counts[0]++;
-        if (Bomb.GetBatteryHolderCount() % 2 == 0) counts[0]++;
-
-        if (Bomb.IsIndicatorOff(KMBombInfoExtensions.KnownIndicatorLabel.CAR)) counts[1]++;
-        if (Bomb.IsIndicatorOff(KMBombInfoExtensions.KnownIndicatorLabel.NSA)) counts[1]++;
-        if (Bomb.IsIndicatorOn(KMBombInfoExtensions.KnownIndicatorLabel.FRK)) counts[1]++;
-        if (Bomb.GetPortCount(KMBombInfoExtensions.KnownPortType.RJ45) > 0) counts[1]++;
-
-        if (Bomb.IsIndicatorOff(KMBombInfoExtensions.KnownIndicatorLabel.FRQ)) counts[2]++;
-        if (Bomb.IsIndicatorOff(KMBombInfoExtensions.KnownIndicatorLabel.IND)) counts[2]++;
-        if (Bomb.IsIndicatorOff(KMBombInfoExtensions.KnownIndicatorLabel.TRN)) counts[2]++;
-        if (Bomb.GetPortCount(KMBombInfoExtensions.KnownPortType.DVI) > 0) counts[2]++;
-
-        if (Bomb.IsIndicatorOff(KMBombInfoExtensions.KnownIndicatorLabel.SIG)) counts[3]++;
-        if (Bomb.IsIndicatorOff(KMBombInfoExtensions.KnownIndicatorLabel.SND)) counts[3]++;
-        if (Bomb.IsIndicatorOn(KMBombInfoExtensions.KnownIndicatorLabel.NSA)) counts[3]++;
-        if (Bomb.GetBatteryCount() % 2 == 0) counts[3]++;
-
-        if (Bomb.IsIndicatorOn(KMBombInfoExtensions.KnownIndicatorLabel.BOB)) counts[4]++;
-        if (Bomb.IsIndicatorOn(KMBombInfoExtensions.KnownIndicatorLabel.CLR)) counts[4]++;
-        if (Bomb.GetPortCount(KMBombInfoExtensions.KnownPortType.PS2) > 0) counts[4]++;
-        if (Bomb.GetPortCount(KMBombInfoExtensions.KnownPortType.Serial) > 0) counts[4]++;
-
-        if (Bomb.IsIndicatorOn(KMBombInfoExtensions.KnownIndicatorLabel.FRQ)) counts[5]++;
-        if (Bomb.IsIndicatorOn(KMBombInfoExtensions.KnownIndicatorLabel.SIG)) counts[5]++;
-        if (Bomb.IsIndicatorOn(KMBombInfoExtensions.KnownIndicatorLabel.TRN)) counts[5]++;
-        if (Bomb.GetSerialNumber().Any("02468".Contains)) counts[5]++;
-
-        if (Bomb.IsIndicatorOff(KMBombInfoExtensions.KnownIndicatorLabel.FRK)) counts[6]++;
-        if (Bomb.IsIndicatorOn(KMBombInfoExtensions.KnownIndicatorLabel.MSA)) counts[6]++;
-        if (Bomb.GetPortCount(KMBombInfoExtensions.KnownPortType.Parallel) > 0) counts[6]++;
-        if (Bomb.GetSerialNumber().Any("AEIOU".Contains)) counts[6]++;
-
-        if (Bomb.IsIndicatorOff(KMBombInfoExtensions.KnownIndicatorLabel.CLR)) counts[7]++;
-        if (Bomb.IsIndicatorOff(KMBombInfoExtensions.KnownIndicatorLabel.MSA)) counts[7]++;
-        if (Bomb.IsIndicatorOn(KMBombInfoExtensions.KnownIndicatorLabel.SND)) counts[7]++;
-        if (Bomb.GetPortCount(KMBombInfoExtensions.KnownPortType.StereoRCA) > 0) counts[7]++;
-
-        var highestCount = counts.Max();
+        var conditionsMet = new List<string>[8];
+        for (int i = 0; i < 8; i++)
+            conditionsMet[i] = new List<string>();
+        for (int i = 0; i < 4 * 8; i++)
+            if (conditions[i].Value)
+                conditionsMet[i / 4].Add(conditions[i].Key);
+        
+        var highestCount = conditionsMet.Max(l => l.Count);
         var states = new RegionState[8];
         var regionNames = new[] { "TL", "TM", "ML", "MC", "MR", "BL", "BM", "BR" };
         var isSolved = false;
 
         for (int i = 0; i < 8; i++)
         {
-            states[i] = counts[i] == highestCount ? RegionState.Unclicked : RegionState.Strike;
+            states[i] = conditionsMet[i].Count == highestCount ? RegionState.Unclicked : RegionState.Strike;
             var j = i;
             Regions[i].OnInteract += delegate
             {
@@ -110,12 +110,14 @@ public class BlindAlleyModule : MonoBehaviour
             };
         }
 
-        Debug.LogFormat("[Blind Alley #{8}] Region condition counts:\n{0} {1}\n{2} {3} {4}\n{5} {6} {7}", counts.Select(c => c.ToString()).Concat(new[] { _moduleId.ToString() }).ToArray());
-        Debug.LogFormat("[Blind Alley #{1}] Must press regions: {0}", string.Join(", ", Enumerable.Range(0, 8).Where(ix => states[ix] == RegionState.Unclicked).Select(ix => regionNames[ix]).ToArray()), _moduleId);
+        for (int i = 0; i < 8; i++)
+            Debug.LogFormat("[Blind Alley #{0}] Region {1} conditions met: {2}{3}", _moduleId, regionNames[i], conditionsMet[i].Count, conditionsMet[i].Count == 0 ? null : " (" + string.Join(", ", conditionsMet[i].ToArray()) + ")");
+
+        Debug.LogFormat("[Blind Alley #{0}] Must press regions: {1}", _moduleId, string.Join(", ", Enumerable.Range(0, 8).Where(ix => states[ix] == RegionState.Unclicked).Select(ix => regionNames[ix]).ToArray()));
     }
 
 #pragma warning disable 414
-    private string TwitchHelpMessage = @"Hit the correct spots with “!{0} press bl mm tm tl”. (Locations are tl, tm, ml, mm, mr, bl, bm, br.)";
+    private readonly string TwitchHelpMessage = @"Hit the correct spots with “!{0} press bl mm tm tl”. (Locations are tl, tm, ml, mm, mr, bl, bm, br.)";
 #pragma warning restore 414
 
     KMSelectable[] ProcessTwitchCommand(string command)
