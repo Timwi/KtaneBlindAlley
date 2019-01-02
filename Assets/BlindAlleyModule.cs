@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KModkit;
 using UnityEngine;
@@ -117,17 +118,20 @@ public class BlindAlleyModule : MonoBehaviour
     }
 
 #pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"Hit the correct spots with “!{0} press bl mm tm tl”. (Locations are tl, tm, ml, mm, mr, bl, bm, br.)";
+    private readonly string TwitchHelpMessage = @"!{0} TL, TM [top-left, top-middle, etc.]";
 #pragma warning restore 414
 
     KMSelectable[] ProcessTwitchCommand(string command)
     {
-        var split = command.Trim().ToLowerInvariant().Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
-        if (split.Length < 2 || split[0] != "press")
+        var split = command.Trim().ToLowerInvariant().Split(new[] { ' ', ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+        if (split.Length == 0)
+            return null;
+        var skip = split[0].Equals("press", StringComparison.InvariantCulture | StringComparison.CurrentCulture) ? 1 : 0;
+        if (!split.Skip(skip).Any())
             return null;
 
         var btns = new List<KMSelectable>();
-        foreach (var cmd in split.Skip(1))
+        foreach (var cmd in split.Skip(skip))
             switch (cmd.Replace("center", "middle").Replace("centre", "middle"))
             {
                 case "tl": case "lt": case "topleft": case "lefttop": btns.Add(Regions[0]); break;
