@@ -67,6 +67,8 @@ public class BlindAlleyModule : MonoBehaviour
         };
 
         var rnd = RuleSeedable.GetRNG();
+        Debug.LogFormat("[Blind Alley #{0}] Using rule seed: {1}", _moduleId, rnd.Seed);
+
         rnd.ShuffleFisherYates(conditions);
 
         // Find out which regions _should_ be clicked
