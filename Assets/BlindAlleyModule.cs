@@ -20,6 +20,7 @@ public class BlindAlleyModule : MonoBehaviour
     private static int _moduleIdCounter = 1;
     private int _moduleId;
     private readonly RegionState[] _regionStates = new RegionState[8];
+    private bool _isAprilFools;
 
     enum RegionState
     {
@@ -31,6 +32,8 @@ public class BlindAlleyModule : MonoBehaviour
     void Start()
     {
         _moduleId = _moduleIdCounter++;
+        string day = DateTime.Now.ToString("MM/dd");
+        _isAprilFools = day == "04/01";
 
         var conditions = new KeyValuePair<string, bool>[]
         {
@@ -91,7 +94,10 @@ public class BlindAlleyModule : MonoBehaviour
             var j = i;
             Regions[i].OnInteract += delegate
             {
-                Regions[j].AddInteractionPunch();
+                float actPunch = 1f;
+                if (_isAprilFools)
+                    actPunch = 10f;
+                Regions[j].AddInteractionPunch(actPunch);
                 if (isSolved)
                     return false;
                 if (_regionStates[j] == RegionState.Strike)
